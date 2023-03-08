@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Constructor from './components/Constructor/Constructor';
+import Switcher from './components/switcher/Switcher';
+import NumberBoard from './components/boards/NumberBoarb';
+import SighnBoard from './components/boards/SighnBoard';
+import EqualBoard from './components/boards/EqualBoard';
+import ScreenBoard from './components/boards/ScreenBoard';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="container">
+          <ScreenBoard/>
+          <NumberBoard/>
+          <SighnBoard/>
+          <EqualBoard />
+      </div>
+      <div className="container">
+          <Switcher/>
+          <Constructor/>
+      </div>
+      
     </div>
   );
 }

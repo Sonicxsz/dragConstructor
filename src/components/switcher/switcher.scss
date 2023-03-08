@@ -1,0 +1,35 @@
+.switcher-wrapper{
+    display: flex;
+    align-items:center;
+    width: 243px;
+    height: 38px;
+    background: #F3F4F6;
+    border-radius: 6px;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.switch-btn{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    height: 36px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+    color: #4D5562;
+    transition: all 0.2s linear;
+    &-active{
+        background: #FFFFFF;
+        border: 1px solid #E2E3E5;
+        border-radius: 5px;
+        svg{
+            color: #5D5FEF;
+            transition: color 0.2s linear;
+        }
+    }
+}
