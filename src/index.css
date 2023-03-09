@@ -27,3 +27,7 @@ p{
 h2{
   margin: 0;
 }
+
+.opacity{
+opacity: 0.5;
+}

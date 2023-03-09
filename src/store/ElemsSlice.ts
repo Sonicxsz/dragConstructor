@@ -1,22 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
+interface ElementsState {
+    items: string[],
+}
+
+const initialState: ElementsState = {
+    items: []
+}
+
 const ElemsSlice = createSlice({
     name: 'Elements',
-    initialState: {
-        items: [],
-
-    },
+    initialState,
 
     reducers: {
         addElem: (state, action:{payload:string}) => {
-            let elements = state.items
-            const items = [...new Set([...elements, action.payload])]
-            elements.push(items)
+           const items = state.items;
+           items.push(action.payload)
         },
+        changePosition: (state, action:{payload:string[]}) => {
+            state.items = [...new Set([...action.payload])];
+            
+        }
        
     }
 })
 
-export const {addElem} = ElemsSlice.actions
+export const {addElem, changePosition} = ElemsSlice.actions
 export default ElemsSlice.reducer

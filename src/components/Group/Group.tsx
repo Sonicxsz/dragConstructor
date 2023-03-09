@@ -12,12 +12,8 @@ interface groupProps {
 function Group({children, type, elType}: groupProps) {
   const clazz = type ? 'group-grid' : 'group-flex'
 
-  const handleDragStart = (type: string) => {
-    return (e: React.DragEvent) => e.dataTransfer.setData('element', type)
-  }
-
   return (
-    <div draggable onDragStart={handleDragStart(elType!)}  className={`group-wrapper ${clazz}`}>
+    <div  className={`group-wrapper ${clazz}`}>
        {children}
     </div>
   )
