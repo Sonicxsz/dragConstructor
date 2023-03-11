@@ -1,7 +1,7 @@
 import {ReactComponent as EmptyIcon} from '../../assets/emptyIcon.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks/useStore';
 import {  items } from '../../App';
-import { addElem, changePosition,  } from '../../store/ElemsSlice';
+import { addElem, changePosition, removeElem} from '../../store/ElemsSlice';
 import './constructor.scss'
 import { useState } from 'react';
 
@@ -13,51 +13,71 @@ function Constructor() {
   const clazz = elements.length <= 0 && 'non-active'
   const dispatch = useAppDispatch()
 
-
   const handleDrop = (e:React.DragEvent) => {
     const type = e.dataTransfer.getData('element')
       dispatch(addElem(type))
-
   }
-
-
 
   const handlerPositionDrop = (e:React.DragEvent, card:string) => {
     e.preventDefault()
-    let newArrList = [...elements]
-    const dropIndx = elements.indexOf(card)
+    const newElements = [...elements]
+    const targetIndex = newElements.indexOf(card)
+    const sourceIndex = newElements.indexOf(currentEl)
 
-    newArrList.splice(dropIndx, 0, currentEl)
-    newArrList.splice(dropIndx + 1, 0, card)
-   
-    dispatch(changePosition(newArrList))
-  }
+    if (sourceIndex === targetIndex) return;
 
-  const handleDragOver = (e: React.SyntheticEvent<DragEvent>) => {
-      e.preventDefault()
-      if(e.target){
-        e.target.className
+    newElements.splice(sourceIndex, 1)
+    newElements.splice(targetIndex, 0, currentEl)
+
+
+    dispatch(changePosition(newElements))
+
+    if(e.target instanceof HTMLDivElement){
+      const parent = e.target.closest('.red')
+      if(parent){
+        parent.className = 'dragzone' 
       }
-      
+    }
   }
+
+  const handleDragOver = (e: React.DragEvent) => {
+      e.preventDefault()
+      if(e.target instanceof HTMLDivElement){
+        const parent = e.target.closest('.dragzone')
+        if(parent){
+          parent.className = 'red'
+        }
+      }
+  }
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault()
+    if(e.target instanceof HTMLDivElement){
+      const parent = e.target.closest('.red')
+      if(parent){
+        parent.className = 'dragzone'
+      }
+    }
+  
+  }
+
   const handleStartPosition = (e:React.DragEvent, card:string) => { 
     setCurrentEl(card)
   } 
+
+  const handleRemove = (elem: string) => {
+    dispatch(removeElem(elem))
+  }
 
   const renderElems = elements.map(i => {
      return items.find(el => {
       return el.name === i
      })
   })
-
-  
-
-
-
   
   
   return (
-    <div onDragOver={handleDragOver} onDrop={handleDrop}  className={`constructor-wrapper ${clazz}`}>
+    <div onDragOver={(e) => handleDragOver(e)} onDrop={handleDrop}  className={`constructor-wrapper ${clazz}`}>
       <>
         {!elements.length && ( <>
           <EmptyIcon/>
@@ -67,9 +87,12 @@ function Constructor() {
         } 
           
       { renderElems.map(i => {
-        return i && <div key={i.id}  
+        return i && <div className='dragzone' key={i.id}  
         draggable onDrop={(e) => handlerPositionDrop(e, i.name)}  
+        onDragLeave={(e) => handleDragLeave(e)}
+        onDragOver={(e) => handleDragOver(e)}
         onDragStart={(e) => handleStartPosition(e, i.name)}
+        onDoubleClick={() => handleRemove(i.name)}
         >
           <i.component />
         </div>  

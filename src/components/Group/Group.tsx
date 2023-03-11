@@ -8,7 +8,6 @@ interface groupProps {
 }
 
 
-
 function Group({children, type, elType}: groupProps) {
   const clazz = type ? 'group-grid' : 'group-flex'
 

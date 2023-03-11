@@ -5,6 +5,10 @@ interface ElementsState {
     items: string[],
 }
 
+interface IPayload {
+    payload: string
+}
+
 const initialState: ElementsState = {
     items: []
 }
@@ -21,10 +25,17 @@ const ElemsSlice = createSlice({
         changePosition: (state, action:{payload:string[]}) => {
             state.items = [...new Set([...action.payload])];
             
+        },
+        removeElem: (state, action:{payload:string}) => {
+            const newItems = state.items.filter(i => {
+                return i !== action.payload
+            })
+
+            state.items = newItems;
         }
        
     }
 })
 
-export const {addElem, changePosition} = ElemsSlice.actions
+export const {addElem, changePosition, removeElem} = ElemsSlice.actions
 export default ElemsSlice.reducer
